@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>reasons i love you</title>
+
+  <!-- Pixel font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #ffd9e3; /* baby pink */
+      --pink-dark: #ff8fb0;
+      --accent: #ff6b95;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Press Start 2P", monospace;
+      background: var(--bg);
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:28px;
+      padding:40px 20px;
+      box-sizing:border-box;
+    }
+
+    h1{
+      margin:0;
+      letter-spacing:2px;
+      font-size:20px;
+      color:#6d2740;
+      text-transform:lowercase;
+      text-align:center;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.06));
+    }
+
+    .carousel-frame{
+      width:calc((120px * 5) + (16px * 4) + 32px);
+      max-width:100%;
+      background: transparent;
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .arrow{
+      width:48px;
+      height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      -webkit-user-select:none;
+      border:4px solid rgba(0,0,0,0.08);
+      background: linear-gradient(180deg, rgba(255,140,170,0.98), rgba(255,110,150,0.98));
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.08);
+      image-rendering: pixelated;
+      border-radius:6px;
+      padding:0;
+    }
+
+    .viewport{
+      overflow:hidden;
+      width: calc(120px * 5 + 12px * 4);
+      box-sizing:content-box;
+      padding:8px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:12px;
+      border: 3px solid rgba(0,0,0,0.03);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.03);
+    }
+
+    .track{
+      display:flex;
+      gap:12px;
+      transition: transform 300ms steps(1);
+      will-change: transform;
+    }
+
+    .envelope{
+      width:120px;
+      height:120px;
+      position:relative;
+      flex: 0 0 120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+
+    .envelope img{
+      width:110px;
+      height:80px;
+      object-fit:contain;
+      image-rendering: pixelated;
+      transition: opacity 100ms steps(1);
+      display:block;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+    }
+
+    .envelope .closed {
+      opacity:1;
+      z-index:1;
+    }
+    .envelope .open {
+      opacity:0;
+      z-index:2;
+    }
+
+    .popup{
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%) translateY(-6px) scale(0.98);
+      min-width:88px;
+      max-width:96px;
+      padding:8px 6px;
+      box-sizing:border-box;
+      border-radius:6px;
+      font-size:9px;
+      line-height:1.1;
+      text-align:center;
+      color:#5a1930;
+      background: linear-gradient(180deg, rgba(255,200,220,0.98), rgba(255,180,200,0.98));
+      border: 2px solid rgba(0,0,0,0.06);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.04);
+      opacity:0;
+      transform-origin:center top;
+      transition: opacity 100ms linear, transform 120ms linear;
+      font-family: "Press Start 2P", monospace;
+      pointer-events:none;
+      white-space:normal;
+      padding-top:10px;
+      padding-bottom:10px;
+      image-rendering:pixelated;
+    }
+
+    .envelope:hover .closed { opacity:0; }
+    .envelope:hover .open { opacity:1; }
+    .envelope:hover .popup { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
+
+    @media (max-width:720px){
+      .carousel-frame{ width:100%; }
+      .viewport{ width:100%; }
+      .envelope{ width:88px; height:88px; flex: 0 0 88px;}
+      .envelope img{ width:78px; height:60px;}
+      .popup{ min-width:72px; max-width:78px; font-size:8px; }
+    }
+
+    .hint{
+      font-size:10px;
+      color:#7d2b45;
+      opacity:0.9;
+      text-transform:lowercase;
+    }
+
+    .arrow[disabled]{
+      opacity:0.45;
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>reasons i love you</h1>
+
+    <div class="carousel-frame">
+      <button class="arrow left" id="arrowLeft">◀</button>
+
+      <div class="viewport" id="viewport">
+        <div class="track" id="track">
+
+          <!-- 💌 You can write your reasons inside the <div class="popup"> ... </div> below -->
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 1</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 2</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 3</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 4</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 5</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 6</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 7</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 8</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 9</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 10</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 11</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 12</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 13</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 14</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 15</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 16</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 17</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 18</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 19</div>
+          </div>
+
+          <div class="envelope">
+            <img class="closed" src="closed.png" alt="closed envelope">
+            <img class="open" src="open.png" alt="open envelope">
+            <div class="popup">Reason 20</div>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="arrow right" id="arrowRight">▶</button>
+    </div>
+
+    <div class="hint">hover an envelope to open it • click arrows to scroll</div>
+  </div>
+
+  <audio id="boop" src="boop.mp3" preload="auto"></audio>
+
+  <script>
+    const track = document.getElementById('track');
+    const arrowLeft = document.getElementById('arrowLeft');
+    const arrowRight = document.getElementById('arrowRight');
+    const boop = document.getElementById('boop');
+
+    const envelopes = document.querySelectorAll('.envelope');
+    const VISIBLE = 5;
+    const total = envelopes.length;
+    let index = 0;
+
+    function getStep(){
+      const first = envelopes[0];
+      const w = first.getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).gap);
+      return w + gap;
+    }
+
+    function updateButtons(){
+      arrowLeft.disabled = index <= 0;
+      arrowRight.disabled = index >= total - VISIBLE;
+    }
+
+    function scrollToIndex(i){
+      const x = -i * getStep();
+      track.style.transform = `translateX(${x}px)`;
+      index = Math.max(0, Math.min(i, total - VISIBLE));
+      updateButtons();
+    }
+
+    arrowLeft.onclick = () => scrollToIndex(index - 1);
+    arrowRight.onclick = () => scrollToIndex(index + 1);
+    updateButtons();
+
+    envelopes.forEach(env => {
+      let canPlay = true;
+      env.addEventListener('mouseenter', ()=>{
+        if(!canPlay) return;
+        boop.currentTime = 0;
+        boop.play().catch(()=>{});
+        canPlay = false;
+        setTimeout(()=>canPlay=true, 350);
+      });
+    });
+  </script>
+</body>
+</html>
